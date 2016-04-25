@@ -1,0 +1,48 @@
+---
+title: "Popuplation"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+#load
+#installations
+
+#load
+library("ggplot2")
+library("jsonlite")
+file= "http://data.okfn.org/data/core/population/r/population.json"
+data=jsonlite::fromJSON(file)
+name=data$`Country Name`
+code=data$`Country Code`
+year=as.numeric(data$Year)
+pop=as.numeric(data$Value)
+f=data.frame(name,code,year,pop)
+s=split.data.frame(f,f$name)
+s2=split.data.frame(f,f$year)
+
+```
+
+## About
+In this document you can find a useful information about where are the best restaurants in TLV city,
+we are Nir Shchori & Avital Glazer used the data that has been given to us from the website  data.okfn.org 
+
+##Summary
+The population in Israel is more then doubled itself in the last 60 years.
+We can conclude that the biggest group of countries is the Arab world group. 
+
+```{r load ,echo=FALSE}
+
+```
+
+
+```{r pressure, echo=FALSE}
+barplot(s$`Israel`$pop,names.arg = s$`Israel`$year,xlab = "year",ylab = "population",col = "blue",
+        main = "population in israel")
+  
+top15= head(sort(s2$`2014`$pop,decreasing=TRUE), n = 5)
+pie(top15,s2$`2014`$name,main = "pie of the world top 5 population  ")
+
+
+```
+
